@@ -11,11 +11,8 @@ class MenuService
 {
     public function getAdminMenu()
     {
-        $endpoint = '/affiliate/api/merchant';
-        $data     = $this->_client->get($endpoint);
-
-        /** @var $menuModel \SiteAdmin\Model\AdminMenu */
-        $menuModel = $this->_serviceManager->get('admin\model\adminMenu');
+        /** @var $menuModel \SiteAdmin\Model\AdminMenuModel */
+        $menuModel = $this->_serviceManager->get('siteadmin\model\adminMenu');
         $menus     = $menuModel->getMenu();
 
         $entities = $this->_buildEntityTree();

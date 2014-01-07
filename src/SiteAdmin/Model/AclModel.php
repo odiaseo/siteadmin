@@ -1,5 +1,5 @@
 <?php
-namespace SiteAdmin\Service;
+namespace SiteAdmin\Model;
 
 use SynergyCommon\Model\AbstractModel;
 

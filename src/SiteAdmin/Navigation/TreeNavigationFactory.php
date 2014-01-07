@@ -8,7 +8,7 @@ class TreeNavigationFactory
     extends AbstractNavigationFactory
 {
     protected $_serviceManager;
-    protected $_service = 'admin\service\menu';
+    protected $_service = 'siteadmin\service\menu';
 
 
     protected function getName()

@@ -62,11 +62,12 @@ class Bootstrap
                 'module_paths' => $zf2ModulePaths,
             ),
             'modules'                 => array(
-                'SiteAdmin',
                 'DoctrineModule',
                 'DoctrineORMModule',
-                'SiteAdminTest',
-                'EwgoSolarium',
+                'ZfcBase',
+                'ZfcUser',
+                'ZfcUserDoctrineORM',
+                'SiteAdmin',
             )
         );
 

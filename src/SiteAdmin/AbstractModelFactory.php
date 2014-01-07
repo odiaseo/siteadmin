@@ -15,7 +15,7 @@ class AbstractModelFactory
 
     public function __construct()
     {
-        $this->_configPrefix = 'admin\model\\';
+        $this->_configPrefix = 'siteadmin\model\\';
     }
 
     /**
@@ -49,9 +49,9 @@ class AbstractModelFactory
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         $modelId   = str_replace($this->_configPrefix, '', $requestedName);
-        $modelName = __NAMESPACE__ . '\Model\\' . ucfirst($modelId);
+        $modelName = __NAMESPACE__ . '\Model\\' . ucfirst($modelId) . 'Model';
 
-        /** @var $model \Admin\Model\BaseModel */
+        /** @var $model \SiteAdmin\Model\BaseModel */
         $model = new $modelName();
 
         $entityClassname = __NAMESPACE__ . '\Entity\\' . ucfirst($modelId);
@@ -64,7 +64,7 @@ class AbstractModelFactory
 
         $model->setEntityManager($serviceLocator->get('doctrine.entitymanager.' . $model->getOrm()));
 
-        $apiClient = $serviceLocator->get('vaboose\service\api');
+        $apiClient = $serviceLocator->get('client\service\api');
         //todo get actual vallues
 
         /** @var $authService \Zend\Authentication\AuthenticationService */

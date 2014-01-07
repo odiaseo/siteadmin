@@ -12,7 +12,7 @@ class AbstractServiceFactory
 
     public function __construct()
     {
-        $this->_configPrefix = 'admin\service\\';
+        $this->_configPrefix = strtolower(__NAMESPACE__) . '\service\\';
     }
 
     /**

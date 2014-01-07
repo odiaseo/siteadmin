@@ -110,4 +110,13 @@ return array(
             )
         ),
     ),
+    'synergy'        => array(
+        'api' => array(
+            'domain'  => 'http://affiliate-manager.com/',
+            'headers' => array(
+                'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Accept'       => 'application/json'
+            )
+        )
+    ),
 );
