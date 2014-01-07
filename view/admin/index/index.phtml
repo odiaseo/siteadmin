@@ -1,0 +1,64 @@
+<div class="widget">
+    <div class="head dark">
+        <div class="icon"><span class="icos-calendar"></span></div>
+        <h2>Visitors</h2>
+        <ul class="buttons">
+            <li><a href="#"><span class="icos-refresh"></span></a></li>
+            <li><a href="#"><span class="icos-history"></span></a></li>
+            <li><a href="#"><span class="icos-flag1"></span></a></li>
+        </ul>
+    </div>
+    <div class="toolbar">
+        <div class="left TAL">
+            <div class="input-prepend input-append">
+                <span class="add-on"><i class="icon-calendar"></i></span>
+                <input type="text" id="datepicker" value="2013-01-31"/>
+                <button class="btn">Show</button>
+            </div>
+        </div>
+        <div class="right TAR">
+            <button class="btn">Today</button>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn">Week</button>
+                <button type="button" class="btn">Month</button>
+                <button type="button" class="btn active">Year</button>
+            </div>
+        </div>
+    </div>
+    <div class="block white">
+        <div id="main_chart" style="height: 300px;"></div>
+    </div>
+    <div class="toolbar-fluid">
+        <div class="information">
+            <div class="item">
+                <div class="rates">
+                    <div class="title">2,145</div>
+                    <div class="description">Visits</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="rates">
+                    <div class="title">648</div>
+                    <div class="description">Unique</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="rates">
+                    <div class="title">143</div>
+                    <div class="description">Sales</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="rates">
+                    <div class="title">$14,329</div>
+                    <div class="description">Money</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><?php
+
+$this->placeholder('sidebar')->captureStart();
+echo $this->render('layout/virgo/quick-navigation.phtml');
+$this->placeholder('sidebar')->captureEnd();
+?>

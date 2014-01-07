@@ -1,0 +1,245 @@
+<?php
+/** @var $user \SynergyCommon\Member\Entity\User */
+$user = $this->zfcUserIdentity();
+$navPages = $this->navigation('admin_menu')->getContainer();
+?>
+<ul class="main">
+    <li><a href="#index"><span class="icom-screen"></span><span class="text">Main</span></a></li>
+    <?php
+    foreach ($navPages->getPages() as $item) {
+        printf(
+            "<li><a href='#%s'><span class='%s'></span><span class='text'>%s</span></a></li>", $item->fragment,
+            $item->icon, $item->title
+        );
+    }
+    ?>
+    <li id="media-files"><a href="#media"><span class="icom-videos"></span><span class="text">Media</span></a>
+    </li>
+    <li><a href="#stats"><span class="icom-stats-up"></span><span class="text">Statistic</span></a></li>
+</ul>
+
+<div class="control"></div>
+
+<div class="submain">
+
+<div id="index">
+
+    <div class="widget-fluid userInfo clearfix">
+        <div class="image">
+            <?php echo $this->gravatar($user->getEmail()) ?>
+        </div>
+        <div class="name">Welcome back, <?php echo $user->getFirstName(); ?></div>
+        <ul class="menuList">
+            <li>
+                <a href="<?php echo $this->url(
+                    'grid/display', array('entity' => 'settings')
+                ); ?>"><span class="icon-cog"></span> Settings</a>
+            </li>
+            <li><a href="#"><span class="icon-comment"></span> Messages</a></li>
+            <li>
+                <a href="<?php echo $this->url('zfcuser/logout'); ?>"><span class="icon-share-alt"></span> Logoff</a>
+            </li>
+        </ul>
+
+        <div class="text">
+            Your last visit: <?php
+            echo $this->dateFormat(
+                $user->updatedAt,
+                \IntlDateFormatter::MEDIUM, // date
+                \IntlDateFormatter::MEDIUM, // time
+                "en_GB"
+            );
+            ?>
+        </div>
+        <div class="text">Visits: <?php echo $user->getVisits(); ?></div>
+    </div>
+    <div class="dr"><span></span></div>
+    <ul class="fmenu">
+        <li>
+            <a href="/"><i class="icon-home icon-white"></i> <span>Site View</span></a>
+        </li>
+        <li>
+            <a href="<?php echo $this->url('admin'); ?>"><i class="icon-signal icon-white"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <li>
+            <a href="#">Reports</a><i class="icon-inbox icon-white"></i> <span class="caption blue">5</span>
+            <ul>
+                <li><a href="#">Submenu level 3</a><span class="caption">1</span></li>
+                <li><a href="#">Submenu level 3</a><span class="caption red">2</span></li>
+                <li><a href="#">Submenu level 3</a><span class="caption green">3</span></li>
+                <li><a href="#">Submenu level 3</a><span class="caption orange">4</span></li>
+                <li><a href="#">Submenu level 3</a><span class="caption purple">5</span></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="dr"><span></span></div>
+    <div class="menu">
+        <a href="#">My Profile</a> <a href="#">Logs</a> <a href="#">Calendar</a> <a href="#">Task List</a>
+        <a href="#">Alerts</a>
+    </div>
+    <div class="dr"><span></span></div>
+    <div class="widget-fluid TAC">
+        <div class="kchart">
+            <input type="text" class="knob" data-min="1" value="<?php echo $this->offerTotal[0]; ?>" data-width="90"
+                   data-height="90"
+                   data-max="<?php echo $this->offerTotal ? array_sum($this->offerTotal) : 0; ?>"
+                   data-fgColor="#b84b48" data-readOnly="true" data-bgColor="#f7f8fa"/>
+
+            <div class="label label-important">Offers</div>
+        </div>
+        <div class="kchart">
+            <input type="text" class="knob" data-min="1"
+                   data-max="<?php echo $this->merchantTotal ? array_sum($this->merchantTotal) : 0; ?>"
+                   value="<?php echo $this->merchantTotal[1]; ?>" data-width="90" data-height="90"
+                   data-fgColor="#f89406" data-readOnly="true" data-bgColor="#f7f8fa"/>
+
+            <div class="label label-warning">Merchants</div>
+        </div>
+    </div>
+    <div class="dr"><span></span></div>
+    <div class="widget">
+        <button class="btn btn-primary btn-block">Button block</button>
+    </div>
+    <div class="widget">
+        <button class="btn btn-warning btn-block">Some another button</button>
+    </div>
+    <div class="dr"><span></span></div>
+</div>
+
+<?php
+$count = 0;
+foreach ($navPages->getPages() as $item) {
+    //$show = () ?
+    ?>
+    <div id='<?php echo $item->fragment; ?>'>
+        <?php
+        $colors = array('red', 'blue', 'orange', 'green', 'purple');
+
+        $deepMenu = $menu = array();
+        /** @var $subItems \Zend\Navigation\Page\Mvc */
+        foreach ($item->pages as $subItems) {
+            $subItems->setFragment($item->fragment);
+            if ($subItems->hasChildren()) {
+                $key        = $count % 5;
+                $deepMenu[] = sprintf(
+                    "<li><a href='%s'><span class='%s'></span> %s</a>", $subItems->getHref(), $subItems->icon,
+                    $subItems->title
+                );
+                $deepMenu[] = sprintf(
+                    "<span class='caption %s'>%d</span><ul>", $colors[$key], count($subItems->getPages())
+                );
+                $count++;
+                foreach ($subItems->getPages() as $thirdLevel) {
+                    $thirdLevel->setFragment($item->fragment);
+                    $deepMenu[] = sprintf(
+                        "<li><a href='%s'>%s</a></li>", $thirdLevel->getHref(), $thirdLevel->title
+                    );
+                }
+
+                $deepMenu[] = '</ul></li>';
+            } else {
+                $menu[] = sprintf(
+                    "<a href='%s'><span class='%s'></span> %s</a>", $subItems->getHref(), $subItems->icon,
+                    $subItems->title
+                );
+            }
+
+        }
+
+        $menu[] = sprintf(
+            "<a href='#' class='internal-message-button' data-parent='%s' data-template='message-template'><span class='icon-info-sign'></span> Send Message</a>",
+            $item->fragment
+        );
+
+        if (count($deepMenu)) {
+            echo "<ul class='fmenu'>";
+            echo implode('', $deepMenu);
+            echo '</ul>';
+            $deepMenu = array();
+        }
+
+        ?>
+
+        <?php
+        if (count($menu)) {
+            print "<div class='dr'><span></span></div><div class='menu'>";
+            echo implode('', $menu);
+            print '</div>';
+            $menu = array();
+        }
+        ?>
+        <div class="dr"><span></span></div>
+    </div>
+<?php
+}
+?>
+
+<div id="media">
+
+    <div class="menu">
+        <a href="images.html"><span class="icon-picture"></span> Images</a>
+        <a href="videos.html"><span class="icon-film"></span> Videos</a>
+        <a href="files.html"><span class="icon-file"></span> File handling</a>
+    </div>
+    <div class="dr"><span></span></div>
+    <div class="widget-fluid">
+        <div id="file-tree-trigger" class="head" data-init="no">File Tree <span class='icon-download'></span></div>
+        <div id="fileTree" data-url="/php/filetree/jqueryFileTree.php" data-asset-dir="/assets/"></div>
+    </div>
+    <div class="dr"><span></span></div>
+</div>
+
+<div id="stats">
+
+    <div class="menu">
+        <a href="charts.html"><span class="icon-signal"></span> Charts</a>
+        <a href="chart_widgets.html"><span class="icon-star"></span> Chart widgets</a>
+    </div>
+    <div class="dr"><span></span></div>
+    <div class="widget-fluid TAC">
+        <div class="kchart">
+            <input type="text" class="knob" data-min="1" data-max="100" value="85" data-width="90" data-height="90"
+                   data-fgColor="#b84b48" data-readOnly="true" data-bgColor="#f7f8fa"/>
+
+            <div class="label label-important">Server load</div>
+        </div>
+        <div class="kchart">
+            <input type="text" class="knob" data-min="1" data-max="1024" value="256" data-width="90" data-height="90"
+                   data-fgColor="#f89406" data-readOnly="true" data-bgColor="#f7f8fa"/>
+
+            <div class="label label-warning">Used RAM</div>
+        </div>
+    </div>
+    <div class="dr"><span></span></div>
+    <div class="widget-fluid">
+        <div class="row-fluid">
+            <div class="span6 TAC">
+                <span class="mChartBar" sparkWidth="100" sparkHeight="30" sparkLineColor="#3f506a"
+                      sparkFillColor="#f7f8fa">1:3,2:4,3:3,3:4,4:2</span>
+            </div>
+            <div class="span6 TAC">
+                <span class="mChartBar" sparkWidth="100" sparkHeight="30" sparkType="bar" sparkBarColor="#b84b48">5,6,4,6,5,4,5,6,8,5,6</span>
+            </div>
+        </div>
+    </div>
+    <div class="widget-fluid">
+        <div class="row-fluid">
+            <div class="span6 TAC">
+                <span class="mChartBar" sparkWidth="100" sparkHeight="30" sparkType="discrete" sparkLineColor="#f89406">5,6,4,6,5,4,5,6,8,5,6</span>
+            </div>
+            <div class="span6 TAC">
+                <span class="mChartBar" sparkType="bullet" sparkWidth="100" sparkHeight="30"
+                      sparkPerformanceColor="#3f506a" sparkTargetColor="#b84b48">10,12,12,9,7</span>
+            </div>
+        </div>
+    </div>
+    <div class="dr"><span></span></div>
+</div>
+
+</div>
+
+<div id="message-template" style="display: none">
+    <?php echo $this->render('layout/partials/internal-message-form.phtml'); ?>
+</div>

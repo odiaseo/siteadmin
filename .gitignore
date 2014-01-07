@@ -1,0 +1,9 @@
+vendor/
+.idea/
+data/
+autoload/
+application.config.php
+composer.phar
+composer.lock
+local.php
+*local.php

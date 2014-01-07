@@ -1,0 +1,28 @@
+<?php
+
+$controller = $this;
+
+/*$tree = $repo->childrenHierarchy(null,false,array('decorate' => true,
+    'rootOpen' => function($item) {
+        if(count($item) && ($item[0]['level'] == 0)){
+            return '<div class="catalog-list">';
+        }
+    },
+    'rootClose' => function($item) {
+        if(count($item) && ($item[0]['level'] == 0)){
+            return '</div>';
+        }
+    },
+    'childOpen' => '<li>',
+    'childClose' => '</li>',
+    'nodeDecorator' => function($node) use (&$controller) {
+         if($node["isVisible"]) {
+            return '<a href="'.$controller->url("admin/default",array("id"=>$node['id'])).'">'.$node['title'].'</a>';
+        }
+    }
+));
+
+echo $tree;*/
+/*$options = array('decorate' => true);
+$tree = $repo->buildTree($query->getArrayResult(), $options);
+echo $tree;*/
