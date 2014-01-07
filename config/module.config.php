@@ -10,56 +10,22 @@
 return array(
     'controllers'    => array(
         'invokables' => array(
-            'SiteAdmin\Controller\Index'      => 'SiteAdmin\Controller\IndexController',
-            'SiteAdmin\Controller\PageLayout' => 'SiteAdmin\Controller\PageLayoutController',
+            'SiteAdmin\Controller\Index' => 'SiteAdmin\Controller\IndexController',
         ),
     ),
     'router'         => array(
         'routes' => array(
-            'admin'       => array(
-                'type'          => 'Literal',
-                'options'       => array(
-                    'route'    => '/admin',
+            'admin' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/siteadmin',
                     'defaults' => array(
                         '__NAMESPACE__' => 'SiteAdmin\Controller',
-                        'module'        => 'SiteAdmin',
                         'controller'    => 'Index',
                         'action'        => 'index',
                     ),
                 ),
-                'may_terminate' => true,
-                'child_routes'  => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'       => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults'    => array(
-                                'controller' => 'index',
-                                'module'     => 'admin',
-                                'action'     => 'index'
-                            ),
-                        )
-                    )
-                ),
             ),
-
-            'page\layout' => array(
-                'type'    => 'Segment',
-                'options' => array(
-                    'route'    => '/admin/page/layout',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'SiteAdmin\Controller',
-                        'module'        => 'admin',
-                        'controller'    => 'PageLayout',
-                        'action'        => 'index'
-                    ),
-                ),
-            ),
-
         ),
     ),
 
@@ -68,7 +34,7 @@ return array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
-        'template_map'             => include __DIR__ . '/../template_map.php',
+        'template_map'             => array(),
         'template_path_stack'      => array(
             __DIR__ . '/../view',
         ),
@@ -77,9 +43,6 @@ return array(
         ),
     ),
 
-    'module_layouts' => array(
-        'SiteAdmin' => 'layout/virgo',
-    ),
     'doctrine'       => array(
 
         'driver' => array(
